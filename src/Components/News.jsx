@@ -6,7 +6,7 @@ import InfiniteScroll from 'react-infinite-scroll-component'
 
 export default class News extends Component {
 
-    api_key = 'cjVC05CYg7SMW9rs5JAgFvDW7JooZ6RCakM3bJaf'
+    api_key = 'sBNBesRxy3My6F8wnwrZVH3IopFu30BNy88bhfYK'
 
     static defaultProps = {
         country : 'in',
@@ -30,21 +30,26 @@ export default class News extends Component {
     }
 
     fetchfunction = async()=>{
+        // this.props.setprogress(0)
+        this.props.setprogress(0)
         let url = `https://api.thenewsapi.com/v1/news/top?locale=${this.props.country}&categories=${this.props.category}&api_token=${this.api_key}&page=${this.state.page}`
         // this.setState({
-        //     loading : true
-        // })
-
-        let data = await fetch(url);
-        
-        let d = await data.json();
-        console.log(d)
-
-        this.setState({
-            articles : d.data,
-            found : d.found,
-            loading : false
-        })
+            //     loading : true
+            // })
+            
+            let data = await fetch(url);
+            this.props.setprogress(20)
+            
+            let d = await data.json();
+            console.log(d)
+            
+            this.props.setprogress(50)
+            this.setState({
+                articles : d.data,
+                found : d.found,
+                loading : false
+            })
+            this.props.setprogress(100)
     }
 
     async componentDidMount(){   
