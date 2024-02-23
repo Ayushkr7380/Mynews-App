@@ -6,6 +6,8 @@ import InfiniteScroll from 'react-infinite-scroll-component'
 
 export default class News extends Component {
 
+    api_key = 'cjVC05CYg7SMW9rs5JAgFvDW7JooZ6RCakM3bJaf'
+
     static defaultProps = {
         country : 'in',
         category : 'entertainment'
@@ -28,14 +30,15 @@ export default class News extends Component {
     }
 
     fetchfunction = async()=>{
-        let url = `https://api.thenewsapi.com/v1/news/top?locale=${this.props.country}&categories=${this.props.category}&api_token=fY7NBYI8naFwCbG30CvFAhHyDHkwvkxtJg7J2LOR&page=${this.state.page}`
+        let url = `https://api.thenewsapi.com/v1/news/top?locale=${this.props.country}&categories=${this.props.category}&api_token=${this.api_key}&page=${this.state.page}`
         // this.setState({
         //     loading : true
         // })
 
         let data = await fetch(url);
-
+        
         let d = await data.json();
+        console.log(d)
 
         this.setState({
             articles : d.data,
@@ -63,7 +66,7 @@ export default class News extends Component {
     // }
 
     fetchMoreData = async()=>{
-        let url = `https://api.thenewsapi.com/v1/news/top?locale=${this.props.country}&categories=${this.props.category}&api_token=fY7NBYI8naFwCbG30CvFAhHyDHkwvkxtJg7J2LOR&page=${this.state.page + 1}`
+        let url = `https://api.thenewsapi.com/v1/news/top?locale=${this.props.country}&categories=${this.props.category}&api_token=${this.api_key}&page=${this.state.page + 1}`
         // this.setState({
             //     loading : true
             // })
@@ -91,7 +94,7 @@ export default class News extends Component {
     return (
         <>
       
-        <h1 className='text-center'>News for you - Top {this.props.category} Headlines</h1>
+        <h1 className='text-center ' style={{marginTop : '80px'}}>News for you - Top {this.props.category} Headlines</h1>
 
         {this.state.loading && <Spinner/>}
 
@@ -101,11 +104,11 @@ export default class News extends Component {
           hasMore={this.state.articles.length != this.state.found}
           loader={<Spinner/>}
         >
-        <div className='container my-3'>
-        <div className="row">
+        <div className='container my-3' >
+        <div className="row" >
             {this.state.articles.map((e,index)=>{
                 return( 
-                    <div className="col" key={index}>
+                    <div className="col" key={index} style={{display : 'flex',justifyContent : 'center'}}>
                     {e && e.title && e.description && e.image_url && e.url && e.published_at && e.source && (
                         <NewsItems
                             title={e.title}
